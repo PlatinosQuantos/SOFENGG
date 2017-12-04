@@ -25,6 +25,7 @@ public class MainMenuController extends Controller
     private ComboBox comboName;
 
     private DatabaseModel dbm;
+    private boolean hasPrivileges;
 
     public MainMenuController() throws IOException
     {
@@ -65,6 +66,11 @@ public class MainMenuController extends Controller
 
     }
 
+    protected boolean isPrivileged()
+    {
+        return hasPrivileges;
+    }
+
     private void setupComboName()
     {
         Callback<ListView<User>, ListCell<User>> factory = new Callback<ListView<User>, ListCell<User>>()
@@ -92,8 +98,9 @@ public class MainMenuController extends Controller
         comboName.setButtonCell(factory.call(null));
         comboName.valueProperty().addListener((ChangeListener<User>) (ov, oldValue, newValue) ->
         {
-            if(oldValue != null)
-                System.out.println(oldValue.getUsername() + " -> " + newValue.getUsername());
+            int roleID = newValue.getRole().getRoleID();
+            if(newValue != null)
+                hasPrivileges = roleID == 1 || roleID == 2;
         });
     }
 
