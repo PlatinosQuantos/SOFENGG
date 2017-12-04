@@ -13,7 +13,6 @@ import javafx.scene.control.ListView;
 import javafx.util.Callback;
 import model.DatabaseModel;
 import model.User;
-import view.dialog.DialogFactory;
 
 import java.io.IOException;
 
@@ -94,7 +93,7 @@ public class MainMenuController extends Controller
         comboName.valueProperty().addListener((ChangeListener<User>) (ov, oldValue, newValue) ->
         {
             if(oldValue != null)
-                DialogFactory
+                System.out.println(oldValue.getUsername() + " -> " + newValue.getUsername());
         });
     }
 
