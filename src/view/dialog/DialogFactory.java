@@ -200,13 +200,15 @@ public class DialogFactory implements I_DialogFactory {
      */
     public void initialize() {
         dialog = new Dialog();
+        dialog.initStyle(StageStyle.UTILITY);
+
         message = new Label();
         graphic = new ImageView();
         // Add CSS
         dialog.getDialogPane().getStylesheets().add(STYLESHEET_LOCATION);
         dialog.getDialogPane().getStyleClass().add("background");
         // Remove the title bar
-        dialog.initStyle(StageStyle.UNDECORATED);
+        //dialog.initStyle(StageStyle.UNDECORATED);
         // Do not set header text
         dialog.setHeaderText(null);
 
