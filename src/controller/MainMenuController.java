@@ -1,9 +1,6 @@
 package controller;
 
-import controller.ViewManager.ViewManagerException;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
+import controller.viewmanager.ViewManagerException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -21,23 +18,15 @@ public class MainMenuController extends Controller
     @FXML
     private Button buttonNewOrder, buttonInventory, buttonSettings, buttonFiles, buttonAnalytics;
 
-    @FXML
-    private ComboBox comboName;
-
-    private DatabaseModel dbm;
-    private boolean hasPrivileges;
-
-    public MainMenuController() throws IOException
+    public MainMenuController(String fxmlpath, String csspath) throws IOException
     {
-        initialize(this, "/view/main-menu", "/view/main-menu");
-
-        dbm = new DatabaseModel();
+        super(fxmlpath, csspath);
     }
 
     @Override
     public void load() throws ViewManagerException
     {
-        if(checkInitialLoad(getClass().getSimpleName()))
+        if(isFirstLoad())
         {
             setupComboName();
 
