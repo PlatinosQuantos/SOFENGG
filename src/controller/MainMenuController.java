@@ -1,15 +1,16 @@
 package controller;
 
 import controller.viewmanager.ViewManagerException;
+import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.DatabaseModel;
 import model.User;
+import view.dialog.PasswordDialogFactory;
 
 import java.io.IOException;
 
@@ -18,9 +19,18 @@ public class MainMenuController extends Controller
     @FXML
     private Button buttonNewOrder, buttonInventory, buttonSettings, buttonFiles, buttonAnalytics;
 
-    public MainMenuController(String fxmlpath, String csspath) throws IOException
+    @FXML
+    private ComboBox comboName;
+
+    private DatabaseModel dbm;
+    private boolean hasPrivileges;
+    private Stage stage;
+
+    public MainMenuController(String fxmlpath, String csspath, Stage primaryStage) throws IOException
     {
         super(fxmlpath, csspath);
+        dbm = new DatabaseModel();
+        stage = primaryStage;
     }
 
     @Override
@@ -87,9 +97,14 @@ public class MainMenuController extends Controller
         comboName.setButtonCell(factory.call(null));
         comboName.valueProperty().addListener((ChangeListener<User>) (ov, oldValue, newValue) ->
         {
-            int roleID = newValue.getRole().getRoleID();
-            if(newValue != null)
+            PasswordDialogFactory pdf = new PasswordDialogFactory();
+            Dialog d = pdf.create();
+            d.show();
+            if(pdf.getPasswordField().getText().equals(newValue.getPassword()) && newValue != null)
+            {
+                int roleID = newValue.getRole().getRoleID();
                 hasPrivileges = roleID == 1 || roleID == 2;
+            }
         });
     }
 
